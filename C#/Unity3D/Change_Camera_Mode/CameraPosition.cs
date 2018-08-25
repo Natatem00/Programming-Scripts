@@ -2,6 +2,11 @@
 
 public class CameraPosition : MonoBehaviour {
 
+    /// <summary>
+    /// I try not to use GetComponent in "not prefab objects" in order not to 
+    /// complicate the algorithm in terms of a 'Big O', so I use links
+    /// </summary>
+
     //variables where have stored camera rotation
     float currentX = 0f, currentY = 0f; 
 
@@ -9,26 +14,27 @@ public class CameraPosition : MonoBehaviour {
     const float MAX_Y = 10f, MIN_Y = -50f, First_MAX_Y = 60, First_MIN_Y = -60;
 
     //camera sensitivity
-    public float cinsX, cinsY;
+    [SerializeField]
+    float cinsX, cinsY;
 
     //begin camera position
-    Vector3 begin_pos; 
+    Vector3 begin_pos;
 
     //camera mode
     bool FirstPerson;
 
-    //joystick and touch area(links request)
-    public FixedTouchField touch;
-    public Joystick joystick;
+    //touch area(links request)
+    [SerializeField]
+    FixedTouchField touch;
 
-    //required components
-    public GameObject player;
-    public Movement move;
+    //required components(links request)
+    [SerializeField]
+    GameObject player;
+    [SerializeField]
+    Movement move; //object movement control script
 
 
 	void Start () {
-        //TODO change on links not on "GetComponent"
-        move = player.GetComponent<Movement>();
         begin_pos = new Vector3(0, 2f, -1f);
         cinsX = 0.2f; 
         cinsY = 0.2f;
@@ -52,18 +58,20 @@ public class CameraPosition : MonoBehaviour {
         }
     }
 
-    private void SetCurrentPositions()
-    {
-        currentX += touch.TouchDist.x * cinsX;
-        currentY -= touch.TouchDist.y * cinsY;
-    }
-
     void LateUpdate () {
         //if camera in TPS mode
         if (!FirstPerson)
         {
             ThirdPersonCamera();
         }
+    }
+
+    //////////////////////////////////////////////////////////////////
+
+    private void SetCurrentPositions()
+    {
+        currentX += touch.TouchDist.x * cinsX;
+        currentY -= touch.TouchDist.y * cinsY;
     }
 
     private void ChangeCameraMode()
@@ -77,8 +85,8 @@ public class CameraPosition : MonoBehaviour {
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         gameObject.transform.position = player.transform.position + rotation * begin_pos;
         gameObject.transform.LookAt(new Vector3(player.transform.position.x + 0.2f, player.transform.position.y + 1.6f, player.transform.position.z));
-        if (joystick.Horizontal > 0)
-            move.SetRotation(new Vector3(0, currentX, 0));
+        if (move.joystick.Horizontal > 0) //if object is moving -> change it direction
+            move.SetDirection(new Vector3(0, currentX, 0));
     }
 
     private void FirstPersonCamera()
@@ -86,8 +94,10 @@ public class CameraPosition : MonoBehaviour {
         currentY = Mathf.Clamp(currentY, First_MIN_Y, First_MAX_Y);
         //camera on player head
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2f, player.transform.position.z);
-        move.SetRotation(new Vector3(0, currentX, 0));
+        move.SetDirection(new Vector3(0, currentX, 0));
         transform.localRotation = Quaternion.Euler(new Vector3(currentY, currentX, 0));
         return;
     }
+
+    //////////////////////////////////////////////////////////////////
 }

@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
+	/// <summary>
+    /// I try not to use GetComponent in "not prefab objects" in order not to 
+    /// complicate the algorithm in terms of a 'Big O', so I use links
+    /// </summary>
+
     //joystick and buttons(links request)
     public Joystick joystick;
     public JoyButton Jump;
@@ -17,8 +22,10 @@ public class Movement : MonoBehaviour {
     float JumpForce;
 
     //required components
-    public Rigidbody body;
-    public Camera cam;
+    [SerializeField]
+    Rigidbody body;
+    [SerializeField]
+    Camera cam;
 
     //movement and rotation vectors
     private Vector3 move;
@@ -73,6 +80,7 @@ public class Movement : MonoBehaviour {
     private void PlayerRun()
     {
         //run
+        //TODO change on RUN_BUTTON
         if (Sprint.Presed)
         {
             if (stamina > 0)
@@ -109,8 +117,8 @@ public class Movement : MonoBehaviour {
         return Physics.Raycast(transform.position, -Vector3.up, 0.02f);
     }
 
-    //set camera direction
-    public void SetRotation(Vector3 camdirection)
+    //set player direction
+    public void SetDirection(Vector3 camdirection)
     {
         this.camdirection = camdirection;
     }
