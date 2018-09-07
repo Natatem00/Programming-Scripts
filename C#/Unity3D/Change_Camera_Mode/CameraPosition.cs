@@ -42,7 +42,7 @@ public class CameraPosition : MonoBehaviour {
 	}
 
     void Update()
-    {   //change camera mode
+    {   //changes camera mode
         //TODO change on CHANGE_CAMERA_BUTTON
         if (Input.GetKeyDown(KeyCode.F))
         {

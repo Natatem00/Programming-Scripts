@@ -42,7 +42,7 @@ public class Movement : MonoBehaviour {
 
     void Update()
     {
-        //check joystick position on horizontal and change Speed
+        //checks joystick position on horizontal and change Speed
         ChangeJoySpeed();
     }
 
@@ -99,7 +99,7 @@ public class Movement : MonoBehaviour {
         }
     }
 
-    //Set Movement And Rotation
+    //Sets Movement And Rotation
     private void MovementAndRotation()
     {
         //movement
@@ -117,7 +117,7 @@ public class Movement : MonoBehaviour {
         return Physics.Raycast(transform.position, -Vector3.up, 0.02f);
     }
 
-    //set player direction
+    //sets player direction
     public void SetDirection(Vector3 camdirection)
     {
         this.camdirection = camdirection;
