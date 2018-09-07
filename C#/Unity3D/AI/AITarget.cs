@@ -37,12 +37,12 @@ public class AITarget : MonoBehaviour {
         var target = GameObject.FindGameObjectWithTag(targetLayerName);
         if (target)
         {
-            //if found - set a variable "targetTransform" to Transform component of "target"
+            //if found - sets a variable "targetTransform" to Transform component of "target"
             targetTransform = target.transform;
         }
         else
         {
-            //if haven't been found - set a variable "targetTransform" to null
+            //if haven't been found - sets a variable "targetTransform" to null
             targetTransform = null;
         }
         //setting layer mask
@@ -60,7 +60,7 @@ public class AITarget : MonoBehaviour {
         //if collided with target
         if (obj.gameObject.layer == LayerMask.NameToLayer(targetLayerName))
         {
-            //set AI velocity to zero
+            //sets AI velocity to zero
             obj.rigidbody.velocity = Vector3.zero;
         }
     }
@@ -69,10 +69,10 @@ public class AITarget : MonoBehaviour {
     #region User functions
     protected void SetLayerMask()
     {
-        //move the one bitwise in depending on layer name
+        //moves the one bitwise in depending on layer name
         int player_mask = 1 << LayerMask.NameToLayer(targetLayerName); //targetLayerName - identifies the target
         int mesh_mask = 1 << LayerMask.NameToLayer("Mesh"); //layer "Mesh" - identifies objects through which AI can't see
-        //make layer mask which can save layers with names "Player" and "Mesh"
+        //makes layer mask which can saves layers with names "Player" and "Mesh"
         layer_mask = player_mask | mesh_mask;
     }
 
@@ -83,7 +83,7 @@ public class AITarget : MonoBehaviour {
         if (AngleCalculate() >= -LookAngle && AngleCalculate() <= LookAngle)
         {
             RaycastHit hitobject; //variable which contains information about ray-hit object 
-            //make RayCast from AI position, in target direction, get information about hit object, set max distance of the ray, use layer mask, don't activate triggers
+            //make RayCast from AI position, in target direction, gets information about hit object, sets max distance of the ray, use layer mask, doesn't activate triggers
             if (Physics.Raycast(transform.position, targetTransform.position - transform.position, out hitobject, LookDistance , layer_mask, QueryTriggerInteraction.Ignore))
             {
                 //if hit object have layer name "targetLayerName"
@@ -91,19 +91,19 @@ public class AITarget : MonoBehaviour {
                 {
                     //Debug ray
                     Debug.DrawRay(transform.position, targetTransform.position - transform.position, Color.red);
-                    //set AI destination - target position
+                    //sets AI destination - target position
                     agent.destination = targetTransform.position;
-                    //set AI view at target
+                    //sets AI view at target
                     transform.LookAt(targetTransform.position);
                 }
             }
         }
     }
 
-    //calculate angle between AI and target
+    //calculates angle between AI and target
     protected float AngleCalculate()
     {
-        //return angle between AI and target
+        //returns angle between AI and target
         return Vector3.Angle(transform.forward, targetTransform.position - transform.position);
     }
 
