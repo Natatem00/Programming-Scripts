@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// Creats grid in specified range(x and y) with specified node radius
-/// Version: 1.0
+/// Version: 1.1
 /// </summary>
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
@@ -20,6 +20,8 @@ public class Grid : MonoBehaviour {
 
     float nodeDiametr; //diametr of the node
     int gridNodesX, gridNodesY; //num of nodes in each axis
+
+    public List<Node> path = new List<Node>();
     #endregion
 
     #region Unity functions
@@ -69,16 +71,16 @@ public class Grid : MonoBehaviour {
                 //checks if it's passable object
                 bool isWalkable = !(Physics.CheckSphere(nodePosition, nodeRadius, notPass));
                 //creates new node
-                grid[x, y] = new Node(isWalkable, nodePosition);
+                grid[x, y] = new Node(isWalkable, nodePosition, x, y);
             }
         }
     }
 
-    Node GetPlayerCoordinatsFromGrid()
+    public Node GetWorldCoordinatsToGrid(Vector3 currentposition)
     {
         //calculates player local(grid) coordinates
-        var PlayerXPosition = (player.position.x + gridNodesX / 2) / gridNodesX;
-        var PlayerYPosition = (player.position.z + gridNodesY / 2) / gridNodesY;
+        var PlayerXPosition = (currentposition.x + gridNodesX / 2) / gridNodesX;
+        var PlayerYPosition = (currentposition.z + gridNodesY / 2) / gridNodesY;
         //clamps layer local coordinates in range(0, 1)
         PlayerXPosition = Mathf.Clamp01(PlayerXPosition);
         PlayerYPosition = Mathf.Clamp01(PlayerYPosition);
@@ -89,6 +91,29 @@ public class Grid : MonoBehaviour {
 
         return grid[x, y];
     }
+
+    public List<Node> GetNodeNeighbour(Node currentNode)
+    {
+        List<Node> neighbours = new List<Node>();
+        for(int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if(x == 0 && y == 0) //if current node
+                {
+                    continue;
+                }
+                int nodeXposition = currentNode.gridX + x;
+                int nodeYposition = currentNode.gridY + y;
+				//if node in grid range
+                if(nodeXposition >= 0 && nodeXposition < gridNodesX && nodeYposition >= 0 && nodeYposition < gridNodesY)
+                {
+                    neighbours.Add(grid[nodeXposition, nodeYposition]);
+                }
+            }
+        }
+        return neighbours;
+    }
     #endregion
 
     #region Gizmos function
@@ -97,7 +122,7 @@ public class Grid : MonoBehaviour {
         //if grid is instantiate
         if (grid != null)
         {
-            Node playerNode = GetPlayerCoordinatsFromGrid(); //finds player node position
+            Node playerNode = GetWorldCoordinatsToGrid(player.transform.position); //finds player node position
             //checks each node on grid
             foreach (Node n in grid)
             {
@@ -106,6 +131,13 @@ public class Grid : MonoBehaviour {
                 if (playerNode == n)
                 {
                     Gizmos.color = Color.black;
+                }
+                if(path != null)
+                {
+                    if(path.Contains(n))
+                    {
+                        Gizmos.color = Color.blue;
+                    }
                 }
                 Gizmos.DrawWireCube(n.worlNodePosition, Vector3.one * (nodeDiametr));
             }
