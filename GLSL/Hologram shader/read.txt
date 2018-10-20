@@ -1,0 +1,5 @@
+Use:
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_SRC_COLOR);
+
+Current version don't work with human models
