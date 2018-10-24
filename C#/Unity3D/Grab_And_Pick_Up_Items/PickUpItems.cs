@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class GrabItems : MonoBehaviour {
+public class PickUpItems : MonoBehaviour {
 
     [SerializeField]
-    float maxDistance = 0.8f;                 // ray max distance
-    float radius = 0.3f;                      // sphere radius
+    float maxDistance = 1f;                   // ray max distance
+    float radius = 0.7f;                      // sphere radius
 
     float timeToUpdate = 0.1f;     
     float currentTime = 0f;
