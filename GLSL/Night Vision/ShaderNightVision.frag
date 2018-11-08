@@ -40,7 +40,7 @@ void main()
 	// multiplies by the kernel matrix
 	for(int i = 0; i < 9; i++)
 	{
-		color += samples[i] * karnel[i];
+		color += samples[i] * kernel[i];
 	}
 	
 	FragColor = vec4(color * vec3(1, 5, 1), 1.0);
