@@ -85,7 +85,7 @@ public class CameraPosition : MonoBehaviour {
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         gameObject.transform.position = player.transform.position + rotation * begin_pos;
         gameObject.transform.LookAt(new Vector3(player.transform.position.x + 0.2f, player.transform.position.y + 1.6f, player.transform.position.z));
-        if (move.joystick.Horizontal > 0) //if object is moving -> change it direction
+        if (move.joystick.Horizontal > 0) //if object is moving -> change it's direction
             move.SetDirection(new Vector3(0, currentX, 0));
     }
 
