@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour {
     /// complicate the algorithm in terms of a 'Big O', so I use links
     /// </summary>
 
-    //joystick and buttons(links request)
+    //joystick and buttons
     public Joystick joystick;
     public JoyButton Jump;
     public JoyButton Sprint;
@@ -42,7 +42,7 @@ public class Movement : MonoBehaviour {
 
     void Update()
     {
-        //checks joystick position on horizontal and change Speed
+        //checks joystick position and changes Speed
         ChangeJoySpeed();
     }
 
@@ -111,13 +111,13 @@ public class Movement : MonoBehaviour {
         body.rotation = Quaternion.Lerp(body.rotation, Quaternion.Euler(camdirection), .2f);
     }
 
-    //if player on the ground
+    //if the player on the ground
     bool IsGrounded()
     {
         return Physics.Raycast(transform.position, -Vector3.up, 0.02f);
     }
 
-    //sets player direction
+    //sets the player direction
     public void SetDirection(Vector3 camdirection)
     {
         this.camdirection = camdirection;

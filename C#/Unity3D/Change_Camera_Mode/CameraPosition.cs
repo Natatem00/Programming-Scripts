@@ -2,12 +2,7 @@
 
 public class CameraPosition : MonoBehaviour {
 
-    /// <summary>
-    /// I try not to use GetComponent in "not prefab objects" in order not to 
-    /// complicate the algorithm in terms of a 'Big O', so I use links
-    /// </summary>
-
-    //variables where have stored camera rotation
+    //camera rotation variables
     float currentX = 0f, currentY = 0f; 
 
     //min and max Y for camera
@@ -23,11 +18,11 @@ public class CameraPosition : MonoBehaviour {
     //camera mode
     bool FirstPerson;
 
-    //touch area(links request)
+    //touch area
     [SerializeField]
     FixedTouchField touch;
 
-    //required components(links request)
+    //required components
     [SerializeField]
     GameObject player;
     [SerializeField]
@@ -92,7 +87,7 @@ public class CameraPosition : MonoBehaviour {
     private void FirstPersonCamera()
     {
         currentY = Mathf.Clamp(currentY, First_MIN_Y, First_MAX_Y);
-        //camera on player head
+        //sets camera on player head
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2f, player.transform.position.z);
         move.SetDirection(new Vector3(0, currentX, 0));
         transform.localRotation = Quaternion.Euler(new Vector3(currentY, currentX, 0));

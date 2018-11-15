@@ -1,10 +1,6 @@
 ﻿using UnityEngine.AI;
 using UnityEngine;
 
-/// <summary>
-/// AI Base Cod which can find target in setable field of view and distance.
-/// Version: 1.01
-/// </summary>
 
 //Require components for AI object
 #region Require components
@@ -23,7 +19,7 @@ public class AITarget : MonoBehaviour {
     [SerializeField]
     protected float LookAngle; //AI object field of view(in degrees)
     [SerializeField]
-    protected float LookDistance; //AI object look distance in which AI can see the target
+    protected float LookDistance; //AI object look distance in which AI can sees the target
 
     protected int layer_mask; //layer mask to find target
     [SerializeField]
@@ -33,7 +29,7 @@ public class AITarget : MonoBehaviour {
     #region Unity functions
     protected virtual void Start()
     {
-        //Finding gameobject with tag "targetLayerName" and writing it into a variable "target"
+        //Finds gameobject with tag "targetLayerName" and writs it into a variable "target"
         var target = GameObject.FindGameObjectWithTag(targetLayerName);
         if (target)
         {
@@ -45,13 +41,13 @@ public class AITarget : MonoBehaviour {
             //if haven't been found - sets a variable "targetTransform" to null
             targetTransform = null;
         }
-        //setting layer mask
+        //sets layer mask
         SetLayerMask();
     }
 
     protected virtual void Update()
     {
-        //looking for target
+        //looks for target
         FindTarget();
     }
 
@@ -69,10 +65,9 @@ public class AITarget : MonoBehaviour {
     #region User functions
     protected void SetLayerMask()
     {
-        //moves the one bitwise in depending on layer name
+        //moves the one bitwise in depending on the layer name
         int player_mask = 1 << LayerMask.NameToLayer(targetLayerName); //targetLayerName - identifies the target
         int mesh_mask = 1 << LayerMask.NameToLayer("Mesh"); //layer "Mesh" - identifies objects through which AI can't see
-        //makes layer mask which can saves layers with names "Player" and "Mesh"
         layer_mask = player_mask | mesh_mask;
     }
 
@@ -86,7 +81,7 @@ public class AITarget : MonoBehaviour {
             //make RayCast from AI position, in target direction, gets information about hit object, sets max distance of the ray, use layer mask, doesn't activate triggers
             if (Physics.Raycast(transform.position, targetTransform.position - transform.position, out hitobject, LookDistance , layer_mask, QueryTriggerInteraction.Ignore))
             {
-                //if hit object have layer name "targetLayerName"
+                //if hit object has layer name "targetLayerName"
                 if (hitobject.collider.gameObject.layer == LayerMask.NameToLayer(targetLayerName))
                 {
                     //Debug ray
@@ -103,7 +98,6 @@ public class AITarget : MonoBehaviour {
     //calculates angle between AI and target
     protected float AngleCalculate()
     {
-        //returns angle between AI and target
         return Vector3.Angle(transform.forward, targetTransform.position - transform.position);
     }
 

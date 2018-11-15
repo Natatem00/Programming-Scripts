@@ -1,8 +1,4 @@
-﻿/// <summary>
-/// Creats grid in specified range(x and y) with specified node radius
-/// Version: 1.1
-/// </summary>
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid : MonoBehaviour {
@@ -105,7 +101,7 @@ public class Grid : MonoBehaviour {
                 }
                 int nodeXposition = currentNode.gridX + x;
                 int nodeYposition = currentNode.gridY + y;
-				//if node in grid range
+				//if node in the grid range
                 if(nodeXposition >= 0 && nodeXposition < gridNodesX && nodeYposition >= 0 && nodeYposition < gridNodesY)
                 {
                     neighbours.Add(grid[nodeXposition, nodeYposition]);
@@ -119,14 +115,14 @@ public class Grid : MonoBehaviour {
     #region Gizmos function
     void OnDrawGizmos()
     {
-        //if grid is instantiate
+        //if the grid is instantiate
         if (grid != null)
         {
             Node playerNode = GetWorldCoordinatsToGrid(player.transform.position); //finds player node position
-            //checks each node on grid
+            //checks each node on the grid
             foreach (Node n in grid)
             {
-                //change color
+                //changes color
                 Gizmos.color = (n.isWalkable) ? Color.white : Color.red;
                 if (playerNode == n)
                 {
