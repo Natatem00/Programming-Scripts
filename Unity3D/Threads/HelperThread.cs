@@ -1,7 +1,7 @@
 namespace Helpers.Thread
 {
     using System.Threading;
-    public class HelperThread
+    public abstract class HelperThread
     {
         bool isDone = false;
         Thread thread = null;
